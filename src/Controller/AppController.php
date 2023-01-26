@@ -43,11 +43,50 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'authorize' => ['Controller'],
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'password'
+                    ],
+                    'finder' => 'auth'
+                ]
+            ],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'authError' => 'No tienes permiso para acceder a esta página',
+            'loginRedirect' => [
+                'controller' => 'Users',
+                'action' => 'home'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ], 
+            'unauthorizedRedirect' => $this->referer()
+            ]);
+    
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+    }
+
+    // funcion para traer datos del usuario logueado
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        $this->set('current_user', $this->Auth->user());
+    }
+    public function isAuthorized($user) {
+        if(isset($user['role']) && $user['role'] === 'admin') {
+            return true;
+        }
+        return false;
     }
 }

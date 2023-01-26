@@ -10,8 +10,8 @@
                 echo $this->Form->control('last_name', ['label' => 'Apellido']);
                 echo $this->Form->control('email');
                 echo $this->Form->control('password', ['label' => 'Contraseña']);
-                echo $this->Form->control('role',  ['options' => ['admin' => 'admin', 'user' => 'user'], 'label' => 'Rol']);
-                echo $this->Form->control('active', ['label' => 'Activo']);
+/*              echo $this->Form->control('role',  ['options' => ['admin' => 'admin', 'user' => 'user'], 'label' => 'Rol']);
+                echo $this->Form->control('active', ['label' => 'Activo']); */
             ?>
         </fieldset>
         <?= $this->Form->button(__('Enviar')) ?>
